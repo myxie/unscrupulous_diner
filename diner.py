@@ -68,26 +68,33 @@ for n in players:
    exp = exp+ [e]
    cumul_exp.append(sum(exp))
 
-
-for n in players:
-    # 'Choose' Expensive option, as it is preferred 
-    cost = cost + [e]
-    cumul_cost.append(sum(cost))
-    if e-c > ue-uc:
-        cumul_cost.remove(sum(cost))
-        cost.remove(e)
-        cost = cost+[c]
+n_cost = []
+for number in range(20,300,20):
+    players = [n for n in range(0,number)]
+    for n in players:
+        # 'Choose' Expensive option, as it is preferred 
+        cost = cost + [e]
         cumul_cost.append(sum(cost))
-        #print cost
+        if e-c > ue-uc:
+            cumul_cost.remove(sum(cost))
+            cost.remove(e)
+            cost = cost+[c]
+            cumul_cost.append(sum(cost))
+            #print cost
+    final_cost=cumul_cost[number-1]
+    n_cost.append(final_cost)
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
 
+xaxis = [x for x in range(20,300,20)]
+ax1.plot(xaxis, n_cost,'ro', label='Cheap')
+#
 util_c = uc-c
 util_e = ue-e
 print util_c
 print util_e
 #exp = sum(expensive)
 #cheap = sum(cheap)
-fig = plt.figure()
-ax1 = fig.add_subplot(111)
 ax2 = ax1.twinx()
 plot_c = [util_c for x in range(len(players))]
 plot_e = [util_e for x in range(len(players))]
@@ -109,6 +116,7 @@ print ax2_ticks
 
 cost = []
 cumul_cost = []
+n_cost = [] 
 for number in range(20,300,20):
     players = [n for n in range(0,number)]
     #print players
@@ -122,23 +130,27 @@ for number in range(20,300,20):
             cost = cost+[c]
             cumul_cost.append(sum(cost))
 
-    #print cumul_cost
-    print len(cumul_cost)
-    print len(players)
+    final_cost=cumul_cost[number-1]
+    n_cost.append(final_cost)
+    '''
     e = (e+(number-1)*c)/float(number)
     util_c = uc-c
     util_e = ue-e
-    #print util_c
-    #print util_e
     plot_c = [util_c for x in range(number)]
     plot_e = [util_e for x in range(number)]
 
     #ax1.plot(players, cumul_cost, label='cumul_cost: '+ str(number))
     ax2.plot(players, plot_c,'ro', label='Cheap utility: ' +str(number))
     ax2.plot(players, plot_e, 'go',label='Expensive utility: '+str(number))
-
+    '''
+xaxis = [x for x in range(20,300,20)]
+ax1.plot(xaxis, n_cost,'bo', label='split bill')
 #plt.plot(players, cumul_cost)
 #plt.plot(players, cumul_exp)
+ax2.plot(players, plot_c,'ro', label='Cheap utility: ' +str(number))
+ax2.plot(players, plot_e, 'go',label='Expensive utility: '+str(number))
+
+plt.legend()
 plt.show()
 #print num
 #print (e+(num-1)*c)/float(num)-c 
