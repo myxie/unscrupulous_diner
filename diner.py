@@ -37,7 +37,7 @@ for n in players:
    cumul_exp.append(sum(exp))
 
 n_cost = []
-for number in range(20,300,20):
+for number in range(10,300,10):
     players = [n for n in range(0,number)]
     for n in players:
         # 'Choose' Expensive option, as it is preferred 
@@ -54,7 +54,7 @@ for number in range(20,300,20):
 fig = plt.figure()
 ax1 = fig.add_subplot(111)
 
-xaxis = [x for x in range(20,300,20)]
+xaxis = [x for x in range(10,300,10)]
 ax1.plot(xaxis, n_cost,'ro', label='Cheap')
 #
 util_c = uc-c
@@ -82,10 +82,28 @@ print ax2_ticks
 # Model the 'Split bill' scenario 
 #(cost[exp] + (n-1)*cost[cheap])/n - c > ue-uc
 
+"""
+If everyone can see what 3 other people are doing
+then everyone acting at once is acting based on 1/3 of n-1
+
+So, if we know that 1 other person is eating the expensive option,
+we can factor that into our decision.
+
+We've chosen the expensive option; however, now the number of 
+people choosing the expensive option has increased, according
+to the 1 person who is eating the expensive option, we can 
+factor that in to our calculations:
+
+(e + ((number-1)/3)*e)/number + (number-(1-2((number-1)/3))*c)/number
+
+
+"""
+
 cost = []
 cumul_cost = []
 n_cost = [] 
-for number in range(1,300,20):
+util_diff = []
+for number in range(10,300,10):
     players = [n for n in range(0,number)]
     #print players
     for n in players:
@@ -100,21 +118,25 @@ for number in range(1,300,20):
 
     final_cost=cumul_cost[number-1]
     n_cost.append(final_cost)
-    '''
+    
     e = (e+(number-1)*c)/float(number)
     util_c = uc-c
     util_e = ue-e
-    plot_c = [util_c for x in range(number)]
-    plot_e = [util_e for x in range(number)]
 
+    util_diff.append(((uc-c)-(ue-e))*number)
+    #plot_c = [util_c for x in range(number)]
+    #plot_e = [util_e for x in range(number)]
+    '''
     #ax1.plot(players, cumul_cost, label='cumul_cost: '+ str(number))
     ax2.plot(players, plot_c,'ro', label='Cheap utility: ' +str(number))
     ax2.plot(players, plot_e, 'go',label='Expensive utility: '+str(number))
     '''
-xaxis = [x for x in range(1,300,20)]
+xaxis = [x for x in range(10,300,10)]
 ax1.plot(xaxis, n_cost,'bo', label='split bill')
+ax2.plot(xaxis, util_diff,'c--', label='util_diff')
 #plt.plot(players, cumul_cost)
 #plt.plot(players, cumul_exp)
+
 
 plt.legend()
 plt.show()
