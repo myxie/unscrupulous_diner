@@ -6,50 +6,18 @@ import numpy as np
 import matplotlib.pyplot as plt 
 
 
-"""
-N - number of players
-
-c - cost of cheap meal
-e - cost of expensive meal 
-
-uc - utility of cheap meal
-ue - utility of expensive meal
-
-e > c 
-e - c > ue - uc (Cost outweighs relative utility)
-
-For splitting the bill:
-Cost[exp] - Cost[cheap] < Util[Exp]-Util[cheap]
-
-How do we model this? 
-
-Example; salad is $5, burger and chips $10
-
-We prefer the burger, but not enough to want to pay for it
-
-So we want the cost[exp] - cost[cheap] to be <= Util[exp]-util[cheap]
-
-When we are evenly-splitting the bill, assume that the selfish player
-thinks that others are buying the cheap item, and so can reduce the 
-cost of the $10 burger; after all, with 5 people splitting the cost, 
-its only $2 averaged over everyone. 
-
-Hence, the inequality we are interested in is:
-
-    (cost[exp] + (n-1)*cost[cheap])/n - c > ue-uc
-
-What this means is, if we assume everyone else gets the cheap meal, 
-and thus our meal will not cost as much, then once this inequality 
-is false, the extra utility of the meal becomes greater than the 
-averaged-cost of the expensive meal, and so we buy it, because this
-is a greater utility 'hit' for us we want. 
-
-"""
-
-
 # Model the 'everyone pays for their own meal' 
 
 players = [n for n in range(0,300)]
+
+"""
+Cost layouts for different ratios:
+        e , c ; ue, uc
+0.25 - [180,100;240,220]
+0.33 - [80,50;90,80]
+0.4 - [80,40;90,74]
+0.5 - [30,10;50,40]
+"""
 
 # Costs
 e = 30
@@ -117,7 +85,7 @@ print ax2_ticks
 cost = []
 cumul_cost = []
 n_cost = [] 
-for number in range(20,300,20):
+for number in range(1,300,20):
     players = [n for n in range(0,number)]
     #print players
     for n in players:
@@ -143,12 +111,10 @@ for number in range(20,300,20):
     ax2.plot(players, plot_c,'ro', label='Cheap utility: ' +str(number))
     ax2.plot(players, plot_e, 'go',label='Expensive utility: '+str(number))
     '''
-xaxis = [x for x in range(20,300,20)]
+xaxis = [x for x in range(1,300,20)]
 ax1.plot(xaxis, n_cost,'bo', label='split bill')
 #plt.plot(players, cumul_cost)
 #plt.plot(players, cumul_exp)
-ax2.plot(players, plot_c,'ro', label='Cheap utility: ' +str(number))
-ax2.plot(players, plot_e, 'go',label='Expensive utility: '+str(number))
 
 plt.legend()
 plt.show()
