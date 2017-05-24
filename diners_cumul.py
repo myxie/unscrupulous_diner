@@ -48,11 +48,6 @@ for ratio_list in ratio_costs:
 
     fig = plt.figure()
     #ax1 = fig.add_subplot(111)
-    util_c = uc-c
-    util_e = ue-e
-    plot_c = [util_c for x in range(len(players))]
-    plot_e = [util_e for x in range(len(players))]
-
     ratio_results.append(cumul_cost)
 
 
@@ -74,8 +69,6 @@ for ratio_list in ratio_costs:
             cost = cost+[c]
             cumul_cost.append(sum(cost))
     e = (e+(number-1)*c)/number
-    util_e = ue-e
-    plot_e = [util_e for x in range(len(players))]
     ratio_results.append(cumul_cost)
 
 fig = plt.figure()
