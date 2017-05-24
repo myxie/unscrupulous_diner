@@ -15,17 +15,12 @@ n_cost = []
 
 
 ratios = [0.25,0.33,0.4,0.5,0.75]
-''',[130,90,150,120]'''
+
 ratio_costs = [[180,100,240,220],[80,50,90,80],[110,70,120,104],[30,10,50,40],[130,90,150,120]]
 
 ratio_results = []
 
 players = [n for n in range(0,300)]
-
-# e = 30
-# c = 10
-# ue = 50
-# uc = 40 
 
 for ratio_list in ratio_costs:
     cost = []
@@ -59,13 +54,9 @@ for ratio_list in ratio_costs:
     plot_e = [util_e for x in range(len(players))]
 
     ratio_results.append(cumul_cost)
-    #ax1.plot(players,cumul_cost,label='Self')
 
-    # ax2 = ax1.twinx()
 
-    # ax2.plot(players, plot_c, label='Cheap utility')
-    # ax2.plot(players, plot_e, label='Expensive utility(Self)')
-
+#Model guilt
 
     cost = []
     cumul_cost = []
@@ -87,20 +78,13 @@ for ratio_list in ratio_costs:
     plot_e = [util_e for x in range(len(players))]
     ratio_results.append(cumul_cost)
 
-    #ax1.plot(players,cumul_cost,label='Split')
-# ax2.plot(players, plot_e, label='Expensive utility(Split)')
 fig = plt.figure()
-# ax1 = fig.add_subplot(111)
 
 count = 0
 for result in ratio_results:
     print count
     if count %2 is 0:
         cheap, = plt.plot(players,result,color='b',label='Cheap')
-        print len(result)
-        players[-1]
-        result[-1]
-        ratios[count/2]
         plt.text(players[-1], result[-1], str(ratios[(count/2)]))
     else:
         expensive, =plt.plot(players,result,'r--',label='Expensive')
@@ -108,7 +92,7 @@ for result in ratio_results:
 
     count = count + 1
 
-plt.title('Cumulative cost of Expensive and Cheap meals\n for different Joy:Cost ratios for n=300')
+plt.title("Cumulative cost of Expensive and Cheap meals\n for different Joy:Cost ratios for n=300\n with 'guilt'")
 plt.xlabel('Number of players')
 plt.ylabel('Cumulative Cost')
 plt.legend(handles=[cheap, expensive])
