@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # Model the 'everyone pays for their own meal' 
 
-players = [n for n in range(0,300)]
+players = [n for n in range(0,500)]
 
 """
 Cost layouts for different ratios:
@@ -37,7 +37,7 @@ for n in players:
    cumul_exp.append(sum(exp))
 
 n_cost = []
-for number in range(10,300,10):
+for number in range(10,1000,10):
     players = [n for n in range(0,number)]
     for n in players:
         # 'Choose' Expensive option, as it is preferred 
@@ -54,8 +54,9 @@ for number in range(10,300,10):
 fig = plt.figure()
 ax1 = fig.add_subplot(111)
 
-xaxis = [x for x in range(10,300,10)]
-ax1.plot(xaxis, n_cost,'ro', label='Cheap')
+xaxis = [x for x in range(10,1000,10)]
+val = [5 for x in range(10,1000,10)]
+ax1.plot(xaxis, n_cost,'r',label='Cheap')
 #
 util_c = uc-c
 util_e = ue-e
@@ -70,7 +71,7 @@ ax1.set_xlabel('Number of players')
 ax1.set_ylabel('Cumulative cost of dinner')
 ax2.set_ylabel('Utility')
 
-ax2_ticks = [n for n in range(0,50,10)]
+ax2_ticks = [n for n in range(0,1000,10)]
 print ax2_ticks
 #ax2.set_yticks=ax2_ticks
 #ax1.plot(players,cumul_cost,label='cumul_cost')
@@ -103,7 +104,7 @@ cost = []
 cumul_cost = []
 n_cost = [] 
 util_diff = []
-for number in range(10,300,10):
+for number in range(10,1000,10):
     players = [n for n in range(0,number)]
     #print players
     for n in players:
@@ -123,7 +124,7 @@ for number in range(10,300,10):
     util_c = uc-c
     util_e = ue-e
 
-    util_diff.append(((uc-c)-(ue-e))*number)
+    util_diff.append(((uc-c)-(ue-e))/number)
     #plot_c = [util_c for x in range(number)]
     #plot_e = [util_e for x in range(number)]
     '''
@@ -131,13 +132,51 @@ for number in range(10,300,10):
     ax2.plot(players, plot_c,'ro', label='Cheap utility: ' +str(number))
     ax2.plot(players, plot_e, 'go',label='Expensive utility: '+str(number))
     '''
-xaxis = [x for x in range(10,300,10)]
-ax1.plot(xaxis, n_cost,'bo', label='split bill')
+xaxis = [x for x in range(10,1000,10)]
+ax1.plot(xaxis, n_cost,'g', label='split bill')
 ax2.plot(xaxis, util_diff,'c--', label='util_diff')
 #plt.plot(players, cumul_cost)
 #plt.plot(players, cumul_exp)
 
+"""
+Third round of testing 
+"""
+cost = []
+cumul_cost = []
+n_cost = [] 
+util_diff = []
+for number in range(10,1000,10):
+    players = [n for n in range(0,number)]
+    #print players
+    for n in players:
+        # 'Choose' Expensive option, as it is preferred 
+        cost = cost + [e]
+        cumul_cost.append(sum(cost))
+        if (3*e + c)/4 - c > ue-uc:
+            cumul_cost.remove(sum(cost))
+            cost.remove(e)
+            cost = cost+[c]
+            cumul_cost.append(sum(cost))
 
+    final_cost=cumul_cost[number-1]
+    n_cost.append(final_cost)
+    
+    e = (e+(number-1)*c)/float(number)
+    util_c = uc-c
+    util_e = ue-e
+
+    util_diff.append(((uc-c)-(ue-e))/number)
+    #plot_c = [util_c for x in range(number)]
+    #plot_e = [util_e for x in range(number)]
+    '''
+    #ax1.plot(players, cumul_cost, label='cumul_cost: '+ str(number))
+    ax2.plot(players, plot_c,'ro', label='Cheap utility: ' +str(number))
+    ax2.plot(players, plot_e, 'go',label='Expensive utility: '+str(number))
+    '''
+xaxis = [x for x in range(10,1000,10)]
+ax1.plot(xaxis, n_cost,'+', label='split bill')
+
+plt.title('Cumulative cost of dinner with respect to utility\n difference as a proportion of population size.')
 plt.legend()
 plt.show()
 #print num

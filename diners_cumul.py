@@ -75,7 +75,8 @@ for ratio_list in ratio_costs:
         cost = cost + [e]
 
         cumul_cost.append(sum(cost))
-        if ((e+(number-1)*c)/number)-c > ue-uc:
+        # if ((e+(number-1)*c)/number)-c > ue-uc:
+        if (3*e + c)/4 - c > ue-uc:
             print ratio_list
             cumul_cost.remove(sum(cost))
             cost.remove(e)
@@ -107,7 +108,7 @@ for result in ratio_results:
 
     count = count + 1
 
-plt.title('Cumulative cost of Expensive and Cheap meals for different Joy:Cost ratios for n=300')
+plt.title('Cumulative cost of Expensive and Cheap meals\n for different Joy:Cost ratios for n=300')
 plt.xlabel('Number of players')
 plt.ylabel('Cumulative Cost')
 plt.legend(handles=[cheap, expensive])
